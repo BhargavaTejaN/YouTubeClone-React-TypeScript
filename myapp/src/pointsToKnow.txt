@@ -1,0 +1,66 @@
+Question 1
+
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+
+line 1
+export type AppDispatch = typeof store.dispatch
+the above line is when we need to dispatch an action, 
+the type of dispatch is declared in that way
+
+ex: 
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from './path/to/your/file';
+
+const dispatch: AppDispatch = useDispatch();
+dispatch({ type: 'SOME_ACTION' });
+
+line 2
+export type RootState = ReturnType<typeof store.getState>
+the above line is used when we want to use useSelector to use the state 
+the useSelector type is for the above code 
+
+ex :
+import { useSelector } from 'react-redux';
+import { RootState } from './path/to/your/file';
+
+const someValue = useSelector((state: RootState) => state.youTubeApp.someValue);
+
+
+
+
+
+Question 2
+
+export const useAppDispatch : () => AppDispatch = useDispatch;
+export const useAppSelector : TypedUseSelectorHook<RootState> = useSelector
+
+line 1
+export const useAppDispatch : () => AppDispatch = useDispatch;
+we are defing a custom Hook named as "useAppDispatch"
+this hook acts as a rapper around the useDispatch hook from react-redux.
+The type of useAppDispatch is explicitly defined as () => AppDispatch, 
+which means it's a function that takes no arguments and returns AppDispatch.
+
+The useDispatch hook is a provided hook by react-redux that returns the dispatch function from the Redux store.
+By creating this custom hook, 
+you ensure that you always get the correct type for the dispatch function (AppDispatch) when using it in your components.
+
+ex:
+const dispatch = useAppDispatch();
+dispatch({ type: 'SOME_ACTION' });
+
+
+line 2
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+we are defing a custom Hook named as "useAppSelector"
+This hook is a wrapper around the useSelector hook from react-redux, 
+but with the type information for the RootState provided.
+The TypedUseSelectorHook<RootState> is a type from react-redux that is used to define the type of the useSelector hook with the specific RootState.
+
+
+The RootState is the complete type of the Redux store, encompassing all the slices' states.
+
+ex:
+const someValue = useAppSelector((state: RootState) => state.someSlice.someValue);
+
